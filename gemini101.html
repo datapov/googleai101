@@ -1,0 +1,1098 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>gemini101 — every Google AI tool, demystified</title>
+<meta name="description" content="A field guide to every AI tool Google ships — Gemini, Antigravity, Flow, Veo, Omni, NotebookLM, AI Studio, and everything announced at I/O 2026. Find the right one, fast." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Display:wght@400;500;700&family=Google+Sans+Text:wght@400;500;700&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+<style>
+  :root {
+    /* Google brand */
+    --blue:   #1A73E8;
+    --red:    #EA4335;
+    --yellow: #F9AB00;
+    --green:  #34A853;
+
+    /* Surfaces (Material 3 expressive) */
+    --bg:        #FAF8F6;
+    --surface:   #FFFFFF;
+    --surface-2: #F1EEF6;
+    --surface-3: #E7E2EE;
+    --outline:   #DCD7E0;
+    --ink:       #1F1F1F;
+    --ink-soft:  #444746;
+    --ink-mute:  #6B6B6B;
+
+    /* Tonal accents */
+    --tint-blue:   #E8F0FE;
+    --tint-red:    #FCE8E6;
+    --tint-yellow: #FEF7E0;
+    --tint-green:  #E6F4EA;
+    --tint-purple: #F3E8FD;
+
+    --r-sm: 14px;
+    --r-md: 22px;
+    --r-lg: 32px;
+    --r-xl: 44px;
+
+    --shadow-1: 0 1px 2px rgba(60,64,67,.06), 0 1px 3px rgba(60,64,67,.08);
+    --shadow-2: 0 4px 10px rgba(60,64,67,.06), 0 12px 28px rgba(60,64,67,.10);
+  }
+
+  *,
+  *::before,
+  *::after { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: "Google Sans Text", "Google Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Soft animated gradient mesh behind the page */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20vh -20vw auto auto;
+    width: 80vw;
+    height: 80vh;
+    background:
+      radial-gradient(40% 40% at 30% 30%, rgba(26,115,232,.18), transparent 60%),
+      radial-gradient(40% 40% at 70% 40%, rgba(234,67,53,.14),  transparent 60%),
+      radial-gradient(40% 40% at 50% 70%, rgba(249,171,0,.16),  transparent 60%),
+      radial-gradient(40% 40% at 30% 70%, rgba(52,168,83,.14),  transparent 60%);
+    filter: blur(40px) saturate(115%);
+    z-index: -1;
+    pointer-events: none;
+    animation: drift 24s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(-6vw, 4vh) rotate(6deg); }
+  }
+
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  h1, h2, h3, h4 {
+    font-family: "Google Sans Display", "Google Sans", system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- Top app bar ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 248, 246, 0.78);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s ease;
+  }
+  header.scrolled { border-bottom-color: var(--outline); }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "Google Sans Display", sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .logo-dots {
+    display: inline-grid;
+    grid-template-columns: repeat(2, 10px);
+    grid-template-rows: repeat(2, 10px);
+    gap: 4px;
+  }
+  .logo-dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+    animation: pulse 5s ease-in-out infinite;
+  }
+  .logo-dots span:nth-child(1) { background: var(--blue);   animation-delay: 0s; }
+  .logo-dots span:nth-child(2) { background: var(--red);    animation-delay: .6s; }
+  .logo-dots span:nth-child(3) { background: var(--yellow); animation-delay: 1.2s; }
+  .logo-dots span:nth-child(4) { background: var(--green);  animation-delay: 1.8s; }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50%     { transform: scale(1.25); opacity: .85; }
+  }
+  .brand small {
+    color: var(--ink-mute);
+    font-weight: 400;
+    font-family: "Google Sans Text", sans-serif;
+    font-size: 13px;
+    margin-left: 2px;
+  }
+  nav.top {
+    display: flex; gap: 28px; align-items: center;
+  }
+  nav.top a {
+    color: var(--ink-soft);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  nav.top a:hover { color: var(--ink); text-decoration: none; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 72px 0 36px;
+  }
+  .hero .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    color: var(--ink-soft);
+    padding: 6px 14px 6px 8px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-1);
+  }
+  .eyebrow .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 4px rgba(52,168,83,.18);
+  }
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 1.02;
+    margin: 22px 0 18px;
+    max-width: 16ch;
+  }
+  .hero h1 .accent-b { color: var(--blue); }
+  .hero h1 .accent-r { color: var(--red); }
+  .hero h1 .accent-y { color: var(--yellow); }
+  .hero h1 .accent-g { color: var(--green); }
+  .hero p.lede {
+    font-size: 19px;
+    max-width: 62ch;
+    color: var(--ink-soft);
+    margin: 0 0 32px;
+  }
+
+  /* Search field */
+  .searchbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    border-radius: 999px;
+    padding: 6px 8px 6px 20px;
+    max-width: 640px;
+    box-shadow: var(--shadow-1);
+    transition: box-shadow .2s ease, border-color .2s ease;
+  }
+  .searchbar:focus-within {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px rgba(26,115,232,.14), var(--shadow-2);
+  }
+  .searchbar .material-symbols-rounded { color: var(--ink-mute); font-size: 22px; }
+  .searchbar input {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    padding: 14px 4px;
+    font: inherit;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .searchbar input::placeholder { color: var(--ink-mute); }
+  .clear-btn {
+    border: 0;
+    background: var(--surface-2);
+    color: var(--ink-soft);
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 500;
+    font-size: 14px;
+    display: none;
+  }
+  .clear-btn:hover { background: var(--surface-3); }
+  .searchbar.has-value .clear-btn { display: inline-flex; align-items: center; }
+
+  /* ---------- Often confused (featured) ---------- */
+  .confused {
+    margin: 56px 0 24px;
+  }
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .section-head h2 {
+    font-size: clamp(26px, 3vw, 36px);
+    letter-spacing: -0.02em;
+  }
+  .section-head p {
+    color: var(--ink-mute);
+    margin: 6px 0 0;
+    max-width: 48ch;
+  }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 18px;
+  }
+  .compare {
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    padding: 28px;
+    border: 1px solid var(--outline);
+    position: relative;
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .compare:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+  .compare::before {
+    content: "";
+    position: absolute;
+    inset: -40% -40% auto auto;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    opacity: .55;
+    filter: blur(30px);
+    pointer-events: none;
+  }
+  .compare.video::before  { background: var(--tint-red); }
+  .compare.coding::before { background: var(--tint-blue); }
+  .compare.agent::before  { background: var(--tint-yellow); }
+
+  .compare h3 {
+    font-size: 20px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .compare ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    display: grid;
+    gap: 10px;
+  }
+  .compare li {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 12px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    align-items: baseline;
+  }
+  .compare li b {
+    color: var(--ink);
+    font-weight: 500;
+    font-family: "Google Sans Display", sans-serif;
+  }
+
+  /* ---------- Filters ---------- */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 18px 0 28px;
+  }
+  .chip {
+    border: 1px solid var(--outline);
+    background: var(--surface);
+    color: var(--ink-soft);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all .18s ease;
+  }
+  .chip:hover { background: var(--surface-2); }
+  .chip .count {
+    font-size: 12px;
+    color: var(--ink-mute);
+    background: var(--surface-2);
+    border-radius: 999px;
+    padding: 2px 8px;
+    transition: all .18s ease;
+  }
+  .chip.active {
+    background: var(--ink);
+    color: white;
+    border-color: var(--ink);
+  }
+  .chip.active .count { background: rgba(255,255,255,.18); color: white; }
+
+  /* ---------- Tool grid ---------- */
+  .tools {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 18px;
+    padding-bottom: 80px;
+  }
+
+  .card {
+    --accent: var(--blue);
+    --accent-tint: var(--tint-blue);
+    background: var(--surface);
+    border-radius: var(--r-md);
+    padding: 24px 24px 22px;
+    border: 1px solid var(--outline);
+    position: relative;
+    overflow: hidden;
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 240px;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-2);
+    border-color: transparent;
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity .22s ease;
+  }
+  .card:hover::after { opacity: 1; }
+
+  .card.accent-blue   { --accent: var(--blue);   --accent-tint: var(--tint-blue); }
+  .card.accent-red    { --accent: var(--red);    --accent-tint: var(--tint-red); }
+  .card.accent-yellow { --accent: var(--yellow); --accent-tint: var(--tint-yellow); }
+  .card.accent-green  { --accent: var(--green);  --accent-tint: var(--tint-green); }
+  .card.accent-purple { --accent: #8E47C9;       --accent-tint: var(--tint-purple); }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .card-icon {
+    width: 48px; height: 48px;
+    background: var(--accent-tint);
+    color: var(--accent);
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .card-icon .material-symbols-rounded { font-size: 26px; }
+
+  .card-titles { min-width: 0; }
+  .card-name {
+    font-family: "Google Sans Display", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .card-cat {
+    font-size: 12.5px;
+    color: var(--ink-mute);
+    margin-top: 2px;
+    font-weight: 500;
+  }
+  .card-cat .sep { margin: 0 6px; opacity: .5; }
+
+  .card-desc {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    margin: 0 0 14px;
+  }
+
+  .card-diff {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px dashed var(--outline);
+    font-size: 13px;
+    color: var(--ink-mute);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .card-diff .material-symbols-rounded {
+    font-size: 16px;
+    color: var(--accent);
+    margin-top: 2px;
+  }
+  .card-diff b {
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .card-badges {
+    position: absolute;
+    top: 18px; right: 18px;
+    display: flex;
+    gap: 6px;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--ink-soft);
+  }
+  .badge.new     { background: var(--tint-green);  color: #1F6B36; }
+  .badge.updated { background: var(--tint-blue);   color: #0E4A9A; }
+  .badge.io26    { background: #1F1F1F;            color: #FFD66A; }
+
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-mute);
+    display: none;
+  }
+  .empty.show { display: block; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--outline);
+    padding: 36px 0 60px;
+    color: var(--ink-mute);
+    font-size: 13px;
+  }
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+  }
+  footer .dots {
+    display: inline-flex;
+    gap: 4px;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  footer .dots span {
+    width: 6px; height: 6px; border-radius: 50%;
+    display: inline-block;
+  }
+  footer .dots span:nth-child(1) { background: var(--blue); }
+  footer .dots span:nth-child(2) { background: var(--red); }
+  footer .dots span:nth-child(3) { background: var(--yellow); }
+  footer .dots span:nth-child(4) { background: var(--green); }
+
+  /* ---------- Reveal animation ---------- */
+  .card {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: rise .55s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .compare-grid { grid-template-columns: 1fr; }
+    nav.top { display: none; }
+    .hero { padding-top: 48px; }
+  }
+  @media (max-width: 520px) {
+    .wrap { padding: 0 18px; }
+    .hero h1 { font-size: 42px; }
+    .compare li { grid-template-columns: 80px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header id="topbar">
+  <div class="wrap bar">
+    <a href="#" class="brand" aria-label="gemini101 home">
+      <span class="logo-dots" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span>gemini101 <small>— Google AI, decoded</small></span>
+    </a>
+    <nav class="top" aria-label="Primary">
+      <a href="#confused">Often confused</a>
+      <a href="#catalog">Catalog</a>
+      <a href="https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-collection/" target="_blank" rel="noopener">I/O 2026 ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <span class="eyebrow"><span class="dot"></span> Updated for Google I/O 2026</span>
+    <h1>
+      Every Google AI tool,<br>
+      <span class="accent-b">decoded</span> in
+      <span class="accent-r">one</span>
+      <span class="accent-y">tidy</span>
+      <span class="accent-g">place.</span>
+    </h1>
+    <p class="lede">
+      Gemini. Antigravity. Flow. Veo. Omni. Spark. NotebookLM. Pics. Stitch.
+      It's a lot. This is a field guide to <b>what each tool actually does</b>
+      and — more usefully — <b>how it differs from the ones it overlaps with</b>.
+    </p>
+
+    <label class="searchbar" id="searchWrap">
+      <span class="material-symbols-rounded" aria-hidden="true">search</span>
+      <input id="search" type="search" placeholder="Search tools, models, or capabilities…" aria-label="Search Google AI tools" autocomplete="off" />
+      <button class="clear-btn" id="clearBtn" type="button">Clear</button>
+    </label>
+  </section>
+
+  <!-- ============ OFTEN CONFUSED ============ -->
+  <section id="confused" class="confused wrap">
+    <div class="section-head">
+      <div>
+        <h2>The three overlaps that trip everyone up</h2>
+        <p>Most "wait, isn't that the same thing?" moments come from these three families. Here's the short version.</p>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <article class="compare video">
+        <h3>🎬 Video: Veo vs Omni vs Flow</h3>
+        <ul>
+          <li><b>Veo 3.1</b><span>The underlying text-to-video model. Generates clips with audio and dialogue from a prompt.</span></li>
+          <li><b>Omni</b><span>The newer multimodal model. Takes <em>any</em> input (image, audio, video, text) and creates or edits video conversationally.</span></li>
+          <li><b>Flow</b><span>The creative studio that wraps Veo + Omni + Imagen with reusable characters, scenes, and Flow Tools.</span></li>
+        </ul>
+      </article>
+
+      <article class="compare coding">
+        <h3>💻 Antigravity: which surface?</h3>
+        <ul>
+          <li><b>Antigravity IDE</b><span>Full-featured editor with the agent manager, artifacts, and codebase context. Best when you're writing code.</span></li>
+          <li><b>Antigravity 2.0</b><span>Standalone desktop "mission control" for orchestrating agents in parallel. Use alongside any editor.</span></li>
+          <li><b>Antigravity CLI</b><span>Terminal-first. Replaces the old Gemini CLI. Great for automation, CI, and headless workflows.</span></li>
+          <li><b>Antigravity SDK</b><span>Build custom agents on your own infra, or deploy via the Managed Agents API.</span></li>
+        </ul>
+      </article>
+
+      <article class="compare agent">
+        <h3>🤖 Assistant: Gemini app vs Spark vs Intelligence</h3>
+        <ul>
+          <li><b>Gemini app</b><span>The conversational assistant. You ask, it answers, it can run Deep Research and Live voice.</span></li>
+          <li><b>Spark</b><span>An agent that acts on your behalf — keeps working in the cloud after you close the app.</span></li>
+          <li><b>Intelligence</b><span>An OS-level layer (Android, ChromeOS, Wear OS) that anticipates intent across third-party apps.</span></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ CATALOG ============ -->
+  <section id="catalog" class="wrap" style="margin-top:64px">
+    <div class="section-head">
+      <div>
+        <h2>The full catalog</h2>
+        <p>Filter by what you're trying to do, or search by name.</p>
+      </div>
+    </div>
+
+    <div class="filters" id="filters" role="tablist" aria-label="Filter by category">
+      <!-- Filled by JS -->
+    </div>
+
+    <div class="tools" id="tools"></div>
+    <div class="empty" id="empty">
+      <p style="font-size:18px;color:var(--ink-soft);margin:0 0 6px">No tools match that yet.</p>
+      <p style="margin:0">Try a different keyword or clear the filter.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <span class="dots" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+      gemini101 is an independent field guide. Not affiliated with Google.
+    </div>
+    <div>Last updated: May 2026 · Reflects I/O 2026 announcements</div>
+  </div>
+</footer>
+
+<script>
+/* ===========================================================
+   Tool catalog. Each tool gets:
+   id, name, category, accent color, icon, short description,
+   the "differs from" line, and optional badge (new/updated/io26).
+   =========================================================== */
+const TOOLS = [
+  // ---------- Assistants & agents ----------
+  {
+    id: "gemini-app",
+    name: "Gemini app",
+    cat: "Assistant",
+    accent: "blue",
+    icon: "auto_awesome",
+    desc: "Google's flagship AI assistant. Chat, voice, image input, Deep Research, Canvas, and Gems.",
+    diff: "The conversational one. If you want it to keep working after you close it, that's Spark.",
+    badge: "updated"
+  },
+  {
+    id: "gemini-spark",
+    name: "Gemini Spark",
+    cat: "Assistant",
+    accent: "yellow",
+    icon: "bolt",
+    desc: "A personal agent that takes actions on your behalf — runs in the cloud even after you walk away.",
+    diff: "Spark acts. The Gemini app answers. Spark can plan, browse, and complete multi-step tasks.",
+    badge: "io26"
+  },
+  {
+    id: "gemini-live",
+    name: "Gemini Live",
+    cat: "Assistant",
+    accent: "red",
+    icon: "graphic_eq",
+    desc: "Real-time voice conversation with Gemini, with camera and screen sharing.",
+    diff: "It's a mode of the Gemini app, optimized for talking — not a separate product."
+  },
+  {
+    id: "gemini-intelligence",
+    name: "Gemini Intelligence",
+    cat: "Assistant",
+    accent: "green",
+    icon: "lan",
+    desc: "OS-level agentic layer for Android, ChromeOS, Wear OS, and Android Auto. Observes context, completes tasks across third-party apps.",
+    diff: "Not an app — a system layer. Spark is the agent. Intelligence is the OS-wide plumbing.",
+    badge: "io26"
+  },
+  {
+    id: "daily-brief",
+    name: "Daily Brief",
+    cat: "Assistant",
+    accent: "blue",
+    icon: "newspaper",
+    desc: "A personalized morning briefing inside the Gemini app — calendar, mail highlights, news threads you follow.",
+    diff: "Proactive summary, not a chat. Spark can also build briefs but is general-purpose.",
+    badge: "new"
+  },
+
+  // ---------- Models ----------
+  {
+    id: "gemini-35-flash",
+    name: "Gemini 3.5 Flash",
+    cat: "Model",
+    accent: "blue",
+    icon: "bolt",
+    desc: "Fast, frontier-class model. Default across the Gemini app, AI Mode in Search, and Antigravity.",
+    diff: "Flash = speed-optimized. Pro = max reasoning. Both 3.5 series.",
+    badge: "io26"
+  },
+  {
+    id: "gemini-35-pro",
+    name: "Gemini 3.5 Pro",
+    cat: "Model",
+    accent: "blue",
+    icon: "diamond",
+    desc: "The reasoning-heavy sibling to 3.5 Flash. For deep research, long context, and complex coding.",
+    diff: "Pick Pro when accuracy matters more than latency. Pick Flash for almost everything else."
+  },
+  {
+    id: "omni",
+    name: "Gemini Omni",
+    cat: "Model",
+    accent: "red",
+    icon: "movie_filter",
+    desc: "Multimodal video model — takes images, audio, video, or text as input and generates or edits video.",
+    diff: "Veo is text-to-video. Omni takes <em>any</em> input. Inside Flow they work together.",
+    badge: "io26"
+  },
+  {
+    id: "veo",
+    name: "Veo 3.1",
+    cat: "Model",
+    accent: "red",
+    icon: "videocam",
+    desc: "Text-to-video model with audio, dialogue, and improved prompt adherence.",
+    diff: "The video model under the hood. Use Flow if you want the full creative UI.",
+    badge: "updated"
+  },
+  {
+    id: "imagen",
+    name: "Imagen 4",
+    cat: "Model",
+    accent: "green",
+    icon: "image",
+    desc: "Text-to-image model. 2K output, far better text rendering for posters, comics, and cards.",
+    diff: "Imagen is the model. Google Pics is the consumer editor built on top of it."
+  },
+  {
+    id: "nano-banana",
+    name: "Nano Banana 3",
+    cat: "Model",
+    accent: "yellow",
+    icon: "palette",
+    desc: "The image model powering Google Pics — fast, edit-oriented, designed for in-place changes.",
+    diff: "Imagen creates from scratch; Nano Banana excels at editing existing images.",
+    badge: "new"
+  },
+  {
+    id: "gemma",
+    name: "Gemma 4",
+    cat: "Model",
+    accent: "purple",
+    icon: "open_in_new",
+    desc: "Google's open-weight model family. Run it locally, fine-tune it, ship it.",
+    diff: "Gemini is closed and hosted. Gemma is open weights, made to run anywhere.",
+    badge: "io26"
+  },
+
+  // ---------- Creative ----------
+  {
+    id: "flow",
+    name: "Google Flow",
+    cat: "Creative",
+    accent: "red",
+    icon: "movie",
+    desc: "AI filmmaking studio. Combines Veo, Omni, and Imagen with reusable characters, Flow Tools, and Flow Music.",
+    diff: "The studio interface. Don't use Veo/Omni directly when you can use them through Flow.",
+    badge: "updated"
+  },
+  {
+    id: "pics",
+    name: "Google Pics",
+    cat: "Creative",
+    accent: "green",
+    icon: "photo_filter",
+    desc: "Image creation and editing in Workspace — posters, flyers, infographics with fine creative controls.",
+    diff: "Think Canva-meets-Gemini. Powered by Nano Banana, watermarked with SynthID.",
+    badge: "io26"
+  },
+  {
+    id: "whisk",
+    name: "Whisk",
+    cat: "Creative",
+    accent: "yellow",
+    icon: "blender",
+    desc: "Remix three reference images (subject, scene, style) into a new one. Casual and playful.",
+    diff: "Whisk is for remixing existing images; Pics is for designing new ones from scratch."
+  },
+  {
+    id: "notebooklm",
+    name: "NotebookLM",
+    cat: "Creative",
+    accent: "blue",
+    icon: "menu_book",
+    desc: "Upload your sources — PDFs, docs, links, video — and Gemini grounds every answer in them. Also makes Audio Overviews.",
+    diff: "It's research with citations, not a general chatbot. Your sources are the universe."
+  },
+
+  // ---------- Developer ----------
+  {
+    id: "antigravity-2",
+    name: "Antigravity 2.0",
+    cat: "Developer",
+    accent: "blue",
+    icon: "hub",
+    desc: "Standalone desktop command center for orchestrating multiple coding agents in parallel. Scheduled tasks, subagents, voice.",
+    diff: "Not an editor — it's the conductor. Use it alongside whatever IDE you already love.",
+    badge: "io26"
+  },
+  {
+    id: "antigravity-ide",
+    name: "Antigravity IDE",
+    cat: "Developer",
+    accent: "blue",
+    icon: "code",
+    desc: "The agent-first IDE. VS Code-based with deep codebase understanding, agent manager, and artifact verification.",
+    diff: "Pick this if you want a single app for both editing and agent orchestration."
+  },
+  {
+    id: "antigravity-cli",
+    name: "Antigravity CLI",
+    cat: "Developer",
+    accent: "blue",
+    icon: "terminal",
+    desc: "Terminal interface to the same agent harness. Skills, Hooks, Subagents, plugins. Replaces Gemini CLI on June 18, 2026.",
+    diff: "If you live in tmux or CI pipelines, this is your surface. Same brain, no GUI.",
+    badge: "io26"
+  },
+  {
+    id: "antigravity-sdk",
+    name: "Antigravity SDK",
+    cat: "Developer",
+    accent: "blue",
+    icon: "extension",
+    desc: "Build custom agents on Google's runtime. Tool integrations, agent config, multi-step workflows.",
+    diff: "Use this when you want to embed agents in your own product, not just use Google's UI.",
+    badge: "new"
+  },
+  {
+    id: "managed-agents",
+    name: "Managed Agents API",
+    cat: "Developer",
+    accent: "purple",
+    icon: "deployed_code",
+    desc: "Call agentic workflows like a chat completion. Each call gets an isolated Linux sandbox with persistent state.",
+    diff: "SDK = build it yourself. Managed Agents = Google hosts the runtime for you.",
+    badge: "io26"
+  },
+  {
+    id: "ai-studio",
+    name: "Google AI Studio",
+    cat: "Developer",
+    accent: "green",
+    icon: "science",
+    desc: "The fastest way to prototype with the Gemini API. Try models, tune prompts, get the API key.",
+    diff: "Studio is for prototyping. Antigravity is for shipping. Vertex AI is for enterprise scale."
+  },
+  {
+    id: "android-cli",
+    name: "Android CLI",
+    cat: "Developer",
+    accent: "green",
+    icon: "android",
+    desc: "Lets any AI agent drive Android Studio — download SDKs, run apps on devices, execute Android skills.",
+    diff: "Brings the Android toolchain to whatever LLM you prefer, not just Gemini.",
+    badge: "io26"
+  },
+  {
+    id: "stitch",
+    name: "Stitch",
+    cat: "Developer",
+    accent: "yellow",
+    icon: "design_services",
+    desc: "Figma-style design tool that generates real UI code. Now with real-time collaboration via Stitch Agent.",
+    diff: "Design surface, not an IDE. Exports straight to Antigravity or publishes to Netlify.",
+    badge: "updated"
+  },
+
+  // ---------- Productivity ----------
+  {
+    id: "ai-inbox",
+    name: "AI Inbox",
+    cat: "Productivity",
+    accent: "red",
+    icon: "inbox",
+    desc: "Gmail's organized view — task-style cards, batch dismissal, smart topic grouping.",
+    diff: "It's Gmail's UI, not a separate app. Daily Brief surfaces the highlights elsewhere."
+  },
+  {
+    id: "gmail-live",
+    name: "Gmail Live",
+    cat: "Productivity",
+    accent: "red",
+    icon: "record_voice_over",
+    desc: "Talk to your inbox. Ask Gemini specific questions across threads without opening them.",
+    diff: "Conversational query layer for mail. Different from AI Inbox, which is about organization.",
+    badge: "io26"
+  },
+  {
+    id: "docs-live",
+    name: "Docs Live",
+    cat: "Productivity",
+    accent: "blue",
+    icon: "description",
+    desc: "Brain-dump in voice or text; Gemini structures it into a real Doc with formatting and sections.",
+    diff: "Generation lives inside Docs itself — no copy-paste from the Gemini app.",
+    badge: "io26"
+  },
+
+  // ---------- Search & discovery ----------
+  {
+    id: "ai-mode",
+    name: "AI Mode in Search",
+    cat: "Search",
+    accent: "blue",
+    icon: "search",
+    desc: "A Gemini-powered tab inside Google Search. Conversational answers, follow-ups, deep research dives.",
+    diff: "Lives in Search. The Gemini app is a separate, more general assistant."
+  },
+  {
+    id: "ask-youtube",
+    name: "Ask YouTube",
+    cat: "Search",
+    accent: "red",
+    icon: "smart_display",
+    desc: "Ask questions about any video, get answers grounded in the transcript and visuals.",
+    diff: "Scoped to YouTube content. Like NotebookLM, but the source library is YouTube.",
+    badge: "io26"
+  },
+  {
+    id: "ask-maps",
+    name: "Ask Maps",
+    cat: "Search",
+    accent: "green",
+    icon: "map",
+    desc: "Natural-language queries over Maps — \"a quiet café within 10 min walk that's open now.\"",
+    diff: "Maps-native AI. The Gemini app can also use Maps, but Ask Maps is built into the Maps UI."
+  },
+
+  // ---------- Commerce ----------
+  {
+    id: "universal-cart",
+    name: "Universal Cart",
+    cat: "Commerce",
+    accent: "yellow",
+    icon: "shopping_cart",
+    desc: "A single cart that follows you across Google, Gmail, YouTube, and partner retailers. Spots price drops, flags incompatibilities.",
+    diff: "Not just a wishlist — agents can check out for you under rules you set.",
+    badge: "io26"
+  },
+
+  // ---------- Science ----------
+  {
+    id: "co-scientist",
+    name: "Co-Scientist",
+    cat: "Science",
+    accent: "purple",
+    icon: "biotech",
+    desc: "A collaborative AI partner for researchers — hypothesis generation, literature triage, experimental planning.",
+    diff: "Specialized for the research workflow, not a general assistant.",
+    badge: "io26"
+  },
+  {
+    id: "weathernext",
+    name: "WeatherNext AI",
+    cat: "Science",
+    accent: "blue",
+    icon: "cloud",
+    desc: "Forecasting model used by national weather agencies. Helped the NHC better predict Hurricane Melissa.",
+    diff: "Not consumer-facing — it's a model that meteorologists use, not an app you open."
+  }
+];
+
+/* ----------------- Render ----------------- */
+const toolsEl   = document.getElementById("tools");
+const filtersEl = document.getElementById("filters");
+const searchEl  = document.getElementById("search");
+const searchWrap= document.getElementById("searchWrap");
+const clearBtn  = document.getElementById("clearBtn");
+const emptyEl   = document.getElementById("empty");
+
+let activeCat = "All";
+let query     = "";
+
+// Build category list with counts
+const cats = ["All", ...Array.from(new Set(TOOLS.map(t => t.cat)))];
+
+function buildFilters() {
+  filtersEl.innerHTML = "";
+  cats.forEach(cat => {
+    const count = cat === "All" ? TOOLS.length : TOOLS.filter(t => t.cat === cat).length;
+    const btn = document.createElement("button");
+    btn.className = "chip" + (cat === activeCat ? " active" : "");
+    btn.type = "button";
+    btn.setAttribute("role", "tab");
+    btn.innerHTML = `${cat} <span class="count">${count}</span>`;
+    btn.addEventListener("click", () => {
+      activeCat = cat;
+      buildFilters();
+      render();
+    });
+    filtersEl.appendChild(btn);
+  });
+}
+
+function render() {
+  const q = query.trim().toLowerCase();
+  const filtered = TOOLS.filter(t => {
+    const matchesCat = activeCat === "All" || t.cat === activeCat;
+    const haystack = (t.name + " " + t.desc + " " + t.diff + " " + t.cat).toLowerCase();
+    const matchesQ = !q || haystack.includes(q);
+    return matchesCat && matchesQ;
+  });
+
+  toolsEl.innerHTML = "";
+  emptyEl.classList.toggle("show", filtered.length === 0);
+
+  filtered.forEach((t, i) => {
+    const card = document.createElement("article");
+    card.className = `card accent-${t.accent}`;
+    card.style.animationDelay = (i * 35) + "ms";
+
+    const badgeHTML = t.badge
+      ? `<div class="card-badges"><span class="badge ${t.badge}">${
+          t.badge === "io26" ? "I/O 2026" : t.badge
+        }</span></div>`
+      : "";
+
+    card.innerHTML = `
+      ${badgeHTML}
+      <div class="card-head">
+        <div class="card-icon" aria-hidden="true">
+          <span class="material-symbols-rounded">${t.icon}</span>
+        </div>
+        <div class="card-titles">
+          <div class="card-name">${t.name}</div>
+          <div class="card-cat">${t.cat}</div>
+        </div>
+      </div>
+      <p class="card-desc">${t.desc}</p>
+      <div class="card-diff">
+        <span class="material-symbols-rounded" aria-hidden="true">compare_arrows</span>
+        <span><b>How it differs:</b> ${t.diff}</span>
+      </div>
+    `;
+    toolsEl.appendChild(card);
+  });
+}
+
+/* search */
+searchEl.addEventListener("input", e => {
+  query = e.target.value;
+  searchWrap.classList.toggle("has-value", query.length > 0);
+  render();
+});
+clearBtn.addEventListener("click", () => {
+  query = "";
+  searchEl.value = "";
+  searchWrap.classList.remove("has-value");
+  searchEl.focus();
+  render();
+});
+
+/* sticky border on scroll */
+const topbar = document.getElementById("topbar");
+const onScroll = () => topbar.classList.toggle("scrolled", window.scrollY > 8);
+window.addEventListener("scroll", onScroll, { passive: true });
+onScroll();
+
+buildFilters();
+render();
+</script>
+</body>
+</html>
