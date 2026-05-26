@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>gemini101 — every Google AI tool, demystified</title>
+<title>Google AI 101 — every Google AI tool, demystified</title>
 <meta name="description" content="A field guide to every AI tool Google ships — Gemini, Antigravity, Flow, Veo, Omni, NotebookLM, AI Studio, and everything announced at I/O 2026. Find the right one, fast." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -113,26 +113,46 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 72px;
+    height: 140px;
   }
   .brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 22px;
     font-family: "Google Sans Display", sans-serif;
     font-weight: 500;
-    font-size: 22px;
-    letter-spacing: -0.01em;
+    font-size: 56px;
+    letter-spacing: -0.03em;
     color: var(--ink);
+    line-height: 1;
+    text-decoration: none;
+  }
+  .brand:hover { text-decoration: none; }
+  .brand .wm-g { color: var(--blue); }
+  .brand .wm-o { color: var(--red); }
+  .brand .wm-o2 { color: var(--yellow); }
+  .brand .wm-a { color: var(--green); }
+  .brand small {
+    color: var(--ink-mute);
+    font-weight: 400;
+    font-family: "Google Sans Text", sans-serif;
+    font-size: 15px;
+    margin-left: 18px;
+    padding-left: 18px;
+    border-left: 1px solid var(--outline);
+    align-self: center;
+    line-height: 1.4;
+    max-width: 14ch;
+    letter-spacing: 0;
   }
   .logo-dots {
     display: inline-grid;
-    grid-template-columns: repeat(2, 10px);
-    grid-template-rows: repeat(2, 10px);
-    gap: 4px;
+    grid-template-columns: repeat(2, 22px);
+    grid-template-rows: repeat(2, 22px);
+    gap: 8px;
   }
   .logo-dots span {
-    width: 10px; height: 10px; border-radius: 50%;
+    width: 22px; height: 22px; border-radius: 50%;
     animation: pulse 5s ease-in-out infinite;
   }
   .logo-dots span:nth-child(1) { background: var(--blue);   animation-delay: 0s; }
@@ -142,13 +162,6 @@
   @keyframes pulse {
     0%,100% { transform: scale(1); opacity: 1; }
     50%     { transform: scale(1.25); opacity: .85; }
-  }
-  .brand small {
-    color: var(--ink-mute);
-    font-weight: 400;
-    font-family: "Google Sans Text", sans-serif;
-    font-size: 13px;
-    margin-left: 2px;
   }
   nav.top {
     display: flex; gap: 28px; align-items: center;
@@ -246,7 +259,7 @@
 
   /* ---------- Often confused (featured) ---------- */
   .confused {
-    margin: 56px 0 24px;
+    margin: 56px auto 24px;
   }
   .section-head {
     display: flex;
@@ -532,11 +545,20 @@
     .compare-grid { grid-template-columns: 1fr; }
     nav.top { display: none; }
     .hero { padding-top: 48px; }
+    .brand { font-size: 40px; gap: 16px; }
+    .brand small { display: none; }
+    .logo-dots { grid-template-columns: repeat(2, 16px); grid-template-rows: repeat(2, 16px); gap: 6px; }
+    .logo-dots span { width: 16px; height: 16px; }
+    .bar { height: 104px; }
   }
   @media (max-width: 520px) {
     .wrap { padding: 0 18px; }
     .hero h1 { font-size: 42px; }
     .compare li { grid-template-columns: 80px 1fr; }
+    .brand { font-size: 28px; gap: 12px; }
+    .logo-dots { grid-template-columns: repeat(2, 11px); grid-template-rows: repeat(2, 11px); gap: 4px; }
+    .logo-dots span { width: 11px; height: 11px; }
+    .bar { height: 80px; }
   }
 </style>
 </head>
@@ -544,11 +566,12 @@
 
 <header id="topbar">
   <div class="wrap bar">
-    <a href="#" class="brand" aria-label="gemini101 home">
+    <a href="#" class="brand" aria-label="Google AI 101 home">
       <span class="logo-dots" aria-hidden="true">
         <span></span><span></span><span></span><span></span>
       </span>
-      <span>gemini101 <small>— Google AI, decoded</small></span>
+      <span class="wm"><span class="wm-g">G</span><span class="wm-o">o</span><span class="wm-o2">o</span><span class="wm-a">g</span>le AI 101</span>
+      <small>Google AI,<br>decoded.</small>
     </a>
     <nav class="top" aria-label="Primary">
       <a href="#confused">Often confused</a>
@@ -646,7 +669,7 @@
   <div class="wrap">
     <div>
       <span class="dots" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
-      gemini101 is an independent field guide. Not affiliated with Google.
+      Google AI 101 is an independent field guide. Not affiliated with Google.
     </div>
     <div>Last updated: May 2026 · Reflects I/O 2026 announcements</div>
   </div>
